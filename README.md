@@ -42,15 +42,31 @@ A maze puzzle game where you control a ball through challenging levels with bloc
    npm install
    ```
 
-3. Start the local server:
+3. Configure your smart contract:
+   ```
+   # Copy the sample configuration
+   cp js/config.sample.js js/config.js
+   
+   # Edit js/config.js and replace the contract address with your own
+   ```
+
+4. Start the local server:
    ```
    npm start
    ```
 
-4. Open your browser and navigate to:
+5. Open your browser and navigate to:
    ```
    http://localhost:8080
    ```
+
+### Deployment
+
+When deploying to a hosting service like GitHub Pages:
+
+1. Make sure `js/config.js` is listed in your `.gitignore` file to prevent it from being committed
+2. Manually add the configuration file to your deployment environment
+3. For GitHub Pages: create a separate branch or configuration for deployment that includes the config with non-sensitive data
 
 ## 🎯 How to Play
 
