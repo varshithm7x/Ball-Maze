@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Ball-Maze Game</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAABILAAASCwAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A" type="image/x-icon">
+    <!-- Load Web3 first -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    </head>
+    <body>
+        <div id='instructions'>
+            How to play Ball-Maze:
+            <br><br>
+            Use the arrow keys to move the ball and find the exit to the maze.
+            <br><br>
+            Control: a,d,s,w
+        </div>
+
+        <div id='help'>
+            Hold down the 'H' key for game instructions.
+        </div>
+
+        <div id='level'>
+            Level: 1
+        </div>
+
+        <div id='lives'>
+            Lives: 3
+        </div>
+
+        <div id='score'>
+            Score: 0
+        </div>
+        
+        <div id="wallet-section">
+            <button id="connect-wallet">Connect MetaMask</button>
+            <div id="wallet-status">Not connected</div>
+        </div>
+
+        <div id="endgame">
+            <img id="gameover" src="img/gameover.jpg" style="display: none;"/>
+            <div id="endgame-controls">
+                <button id="try" style="display: none;">Try again</button>
+                <div id="totalscore" style="display: none;">
+                    Total Score:
+                </div>
+                <!-- The Mint NFT button will be added here by JavaScript -->
+            </div>
+        </div>
+        
+        <div id="volume">
+          <button id="mute_button">
+              <img id="show_volume" src="./img/unmute.png">
+              <img id="show_mute" style="display:none" src="./img/mute.png">
+          </button>
+        </div>
+
+        <script src="js/Box2dWeb.min.js"></script>
+        <script src="js/Three.js"></script>
+        <script src="js/keyboard.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/maze.js"></script>
+        <script src="js/metamask-polyfill.js"></script>
+        <script>
+            // Check if Web3 is loaded
+            window.addEventListener('load', function() {
+                if (typeof Web3 === 'undefined') {
+                    console.error('Web3 is not loaded properly');
+                } else {
+                    console.log('Web3 loaded successfully');
+                }
+                
+                // Check if MetaMask is installed
+                if (typeof window.ethereum !== 'undefined') {
+                    console.log('MetaMask is installed');
+                } else {
+                    console.log('Please install MetaMask');
+                }
+            });
+        </script>
+        <script src="js/nft-minting.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>

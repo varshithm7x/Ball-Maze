@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MetaMask Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .info {
+            background-color: #d9edf7;
+            color: #31708f;
+        }
+    </style>
+</head>
+<body>
+    <h1>MetaMask Connection Test</h1>
+    <p>This is a simple test page to verify MetaMask connectivity without any other dependencies.</p>
+    
+    <button id="connect-button">Connect MetaMask</button>
+    <div id="status" class="info">Status: Not connected</div>
+    
+    <script>
+        // Simple MetaMask connection test
+        document.addEventListener('DOMContentLoaded', function() {
+            const connectButton = document.getElementById('connect-button');
+            const statusElement = document.getElementById('status');
+            
+            // Check if MetaMask is installed
+            if (typeof window.ethereum === 'undefined') {
+                statusElement.textContent = 'Status: MetaMask is not installed';
+                statusElement.className = 'error';
+                connectButton.disabled = true;
+                return;
+            }
+            
+            // Add event listener for the connect button
+            connectButton.addEventListener('click', function() {
+                statusElement.textContent = 'Status: Connecting...';
+                statusElement.className = 'info';
+                
+                // Request account access
+                window.ethereum.request({ method: 'eth_requestAccounts' })
+                    .then(function(accounts) {
+                        if (accounts.length === 0) {
+                            throw new Error('No accounts found');
+                        }
+                        
+                        const account = accounts[0];
+                        statusElement.textContent = `Status: Connected to ${account}`;
+                        statusElement.className = 'success';
+                        connectButton.textContent = 'Connected';
+                        connectButton.disabled = true;
+                    })
+                    .catch(function(error) {
+                        console.error('Error connecting to MetaMask:', error);
+                        statusElement.textContent = `Status: Error - ${error.message}`;
+                        statusElement.className = 'error';
+                    });
+            });
+        });
+    </script>
+</body>
+</html> 

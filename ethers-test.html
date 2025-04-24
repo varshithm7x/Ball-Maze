@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ethers.js Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+    <h1>Ethers.js Test</h1>
+    <div id="status">Checking if ethers.js is loaded...</div>
+    <button id="connect">Connect MetaMask</button>
+    
+    <script>
+        // Check if ethers is loaded
+        if (typeof ethers !== 'undefined') {
+            document.getElementById('status').textContent = 'Ethers.js is loaded! Version: ' + ethers.version;
+            document.getElementById('status').style.color = 'green';
+        } else {
+            document.getElementById('status').textContent = 'Ethers.js failed to load!';
+            document.getElementById('status').style.color = 'red';
+        }
+        
+        // Try to connect to MetaMask
+        document.getElementById('connect').addEventListener('click', async function() {
+            if (typeof window.ethereum === 'undefined') {
+                alert('MetaMask is not installed!');
+                return;
+            }
+            
+            try {
+                // Request account access
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                
+                // Create Web3 provider
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                
+                // Get the signer
+                const signer = provider.getSigner();
+                
+                document.getElementById('status').textContent = 'Connected to MetaMask! Account: ' + accounts[0];
+                document.getElementById('status').style.color = 'green';
+            } catch (error) {
+                console.error('Error connecting to MetaMask:', error);
+                document.getElementById('status').textContent = 'Failed to connect to MetaMask: ' + error.message;
+                document.getElementById('status').style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html> 
