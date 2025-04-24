@@ -33,7 +33,7 @@ A maze puzzle game where you control a ball through challenging levels with bloc
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/Ball-Maze.git
+   git clone https://github.com/varshithm7x/Ball-Maze.git
    cd Ball-Maze
    ```
 
@@ -42,12 +42,13 @@ A maze puzzle game where you control a ball through challenging levels with bloc
    npm install
    ```
 
-3. Configure your smart contract:
+3. Configure your smart contract and environment:
    ```
-   # Copy the sample configuration
+   # Copy the sample configuration files
    cp js/config.sample.js js/config.js
+   cp .env.sample .env
    
-   # Edit js/config.js and replace the contract address with your own
+   # Edit js/config.js and .env to replace placeholders with your actual values
    ```
 
 4. Start the local server:
@@ -64,9 +65,9 @@ A maze puzzle game where you control a ball through challenging levels with bloc
 
 When deploying to a hosting service like GitHub Pages:
 
-1. Make sure `js/config.js` is listed in your `.gitignore` file to prevent it from being committed
-2. Manually add the configuration file to your deployment environment
-3. For GitHub Pages: create a separate branch or configuration for deployment that includes the config with non-sensitive data
+1. Make sure `js/config.js` and `.env` are listed in your `.gitignore` file to prevent them from being committed
+2. Manually add the configuration files to your deployment environment
+3. For GitHub Pages: create a separate branch or configuration for deployment that includes the configs with non-sensitive data
 
 ## 🎯 How to Play
 
