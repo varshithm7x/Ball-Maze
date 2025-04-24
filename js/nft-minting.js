@@ -38,7 +38,7 @@ function loadContractConfig() {
     
     if (isDev) {
         // Only use this for local development
-        CONTRACT_CONFIG.address = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+        CONTRACT_CONFIG.address = 'MONAD CONTRACT ADDRESS'; // This will be populated from config.js
         console.log('Development mode: Using local contract address');
     } else {
         // In production, load from environment or deployed config
