@@ -1,31 +1,60 @@
 // NFT Minting functionality using Web3.js and MetaMask
-const MONAD_CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-const MONAD_ABI = [
-    {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "score",
-                "type": "uint256"
+
+// Contract configuration - will be loaded dynamically
+let CONTRACT_CONFIG = {
+    address: null,
+    abi: [
+        {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "score",
+                    "type": "uint256"
+                }
+            ],
+            "name": "mint",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ]
+};
+
+// Load contract address from configuration
+function loadContractConfig() {
+    // For development, you can set a default address
+    const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isDev) {
+        // Only use this for local development
+        CONTRACT_CONFIG.address = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+        console.log('Development mode: Using local contract address');
+    } else {
+        // In production, load from environment or deployed config
+        // You should create a config.js file that is gitignored
+        try {
+            if (window.contractConfig && window.contractConfig.address) {
+                CONTRACT_CONFIG.address = window.contractConfig.address;
+                console.log('Loaded contract address from config');
+            } else {
+                console.warn('No contract address found in config, NFT minting will be disabled');
             }
-        ],
-        "name": "mint",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        } catch (error) {
+            console.error('Failed to load contract configuration', error);
+        }
     }
-];
+}
 
 let web3;
 let contract;
@@ -70,8 +99,15 @@ async function initializeWeb3() {
         // Create Web3 instance
         web3 = new Web3(window.ethereum);
         
+        // Check if contract address is available
+        if (!CONTRACT_CONFIG.address) {
+            console.error('Contract address not configured');
+            updateWalletStatus(false, null, 'NFT minting not available');
+            return false;
+        }
+        
         // Create contract instance
-        contract = new web3.eth.Contract(MONAD_ABI, MONAD_CONTRACT_ADDRESS);
+        contract = new web3.eth.Contract(CONTRACT_CONFIG.abi, CONTRACT_CONFIG.address);
         
         // Update UI with connected status
         updateWalletStatus(true, userAccount);
@@ -140,6 +176,11 @@ async function mintLevelNFT(score) {
             }
         }
         
+        // Ensure contract address is configured
+        if (!CONTRACT_CONFIG.address) {
+            throw new Error('Contract address not configured. Cannot mint NFT.');
+        }
+        
         // Ensure score is a valid number
         if (typeof score !== 'number' || isNaN(score)) {
             throw new Error('Invalid score value');
@@ -166,7 +207,7 @@ async function mintLevelNFT(score) {
                 method: 'eth_sendTransaction',
                 params: [{
                     from: userAccount,
-                    to: MONAD_CONTRACT_ADDRESS,
+                    to: CONTRACT_CONFIG.address,
                     data: data,
                     gas: '0x7A120', // ~500,000 gas
                 }],
@@ -206,6 +247,9 @@ async function checkInitialConnection() {
 
 // Wait for the page to be fully loaded
 window.addEventListener('load', function() {
+    // Load contract configuration
+    loadContractConfig();
+    
     // Check if Web3 is loaded
     if (typeof Web3 === 'undefined') {
         console.error('Web3 is not loaded. Please check your script includes.');
