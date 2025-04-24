@@ -1,6 +1,6 @@
 # Ball-Maze with NFT Integration
 
-![Ball-Maze Game](img/ball.png)
+![Ball-Maze Game](img/main_game.png)
 
 A maze puzzle game where you control a ball through challenging levels with blockchain integration for NFT minting. This project combines engaging gameplay with Web3 technology.
 
@@ -106,8 +106,10 @@ contract BallMazeNFT is ERC721, Ownable {
 
 ## 📷 Screenshots
 
-![Game Start](img/startgame.jpg)
-![Game Over](img/gameover.jpg)
+![Game Start](img/main_game.png)
+![Mid Game](img/Game_ss_2.png)
+![NFT Minting](img/game_ss_4.png)
+![Game Over](img/game_ss_3.png)
 
 ## 📜 License
 
