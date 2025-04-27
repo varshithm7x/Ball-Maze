@@ -36,23 +36,23 @@ function loadContractConfig() {
     // For development, you can set a default address
     const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     
-    if (isDev) {
-        // Only use this for local development
-        CONTRACT_CONFIG.address = 'MONAD CONTRACT ADDRESS'; // This will be populated from config.js
-        console.log('Development mode: Using local contract address');
-    } else {
-        // In production, load from environment or deployed config
-        // You should create a config.js file that is gitignored
-        try {
-            if (window.contractConfig && window.contractConfig.address) {
-                CONTRACT_CONFIG.address = window.contractConfig.address;
-                console.log('Loaded contract address from config');
-            } else {
-                console.warn('No contract address found in config, NFT minting will be disabled');
-            }
-        } catch (error) {
-            console.error('Failed to load contract configuration', error);
+    try {
+        // Try to load from config.js first (works for both dev and production)
+        if (window.contractConfig && window.contractConfig.address) {
+            CONTRACT_CONFIG.address = window.contractConfig.address;
+            console.log('Loaded contract address from config.js');
+            return;
         }
+        
+        // Fallback for development if config.js is not set up
+        if (isDev) {
+            CONTRACT_CONFIG.address = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // Local development fallback
+            console.log('Development mode: Using default local contract address');
+        } else {
+            console.warn('No contract address found in config, NFT minting will be disabled');
+        }
+    } catch (error) {
+        console.error('Failed to load contract configuration', error);
     }
 }
 
